@@ -4,46 +4,36 @@ import { Unique } from 'modules/common';
 import { SameAs } from 'modules/common/validator/same-as.validator';
 import { User } from 'modules/user';
 
-export class RegisterPayload {
-  @ApiProperty({
-    required: true,
-  })
-  @IsEmail()
-  @Unique([User])
-  email: string;
+export class orderPayload {
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  name: string;
+  rate: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  company: string;
+  direction: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  gui_version: string;
+  volume: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  last_action: string;
+  unit: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  @MinLength(5)
-  password: string;
+  modified_by: number;
 
-  @ApiProperty({ required: true })
-  @SameAs('password')
-  passwordConfirmation: string;
 }

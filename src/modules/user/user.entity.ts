@@ -15,10 +15,16 @@ export class User {
   id: number;
 
   @Column({ length: 255 })
-  firstName: string;
+  name: string;
 
   @Column({ length: 255 })
-  lastName: string;
+  company: string;
+
+  @Column({ length: 255 })
+  gui_version: string;
+
+  @Column({ length: 255 })
+  last_action: string;
 
   @Column({ length: 255 })
   email: string;
@@ -37,8 +43,10 @@ export class User {
 }
 
 export class UserFillableFields {
+  name: string;
+  company: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  gui_version: string;
+  last_action: string;
   password: string;
 }

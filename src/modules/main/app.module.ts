@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from 'modules/config';
 import { AuthModule } from 'modules/auth';
 import { CommonModule } from 'modules/common';
+import { OrderModule } from '../order/order.module';
+import { AuctionModule } from '../auction/auction.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { CommonModule } from 'modules/common';
     ConfigModule,
     AuthModule,
     CommonModule,
+    OrderModule,
+    AuctionModule
   ],
   controllers: [AppController],
   providers: [AppService],
