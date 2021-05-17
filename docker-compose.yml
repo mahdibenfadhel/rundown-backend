@@ -1,45 +1,47 @@
-version: "2"
-services:
-  nest:
-    build: .
-    container_name: nest
-    depends_on:
-      - db
-    volumes:
-      - ./src:/app/src
-      - .env:/app/.env
+version: '3.7'
 
-  nginx:
+services:
+  rundown:
+    container_name: rundown
     build:
       context: .
-      dockerfile: Dockerfile-nginx
-    container_name: nest-nginx
-    depends_on:
-      - nest
-    environment:
-      - NGINX_SERVER_NAME=localhost
-      - NEST_HOST=nest
-      - NEST_PORT=3000
-      - NGINX_MAX_BODY=100M
-    ports:
-      - 80:80
-
-  db:
-    image: mariadb:10
-    container_name: nest-db
-    environment:
-      MYSQL_DATABASE: nest
-      MYSQL_USER: nest
-      MYSQL_PASSWORD: nest
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - 3306:3306
+      target: development
     volumes:
-      - mariadbdata:/var/lib/mysql
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: yarn start:dev
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - rundowndb
+
+  rundowndb:
+    container_name: rundowndb
+    image: postgres:13-alpine
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
+    networks:
+      - webnet
     ports:
       - 8080:8080
+networks:
+  webnet:
 volumes:
-  mariadbdata:
+  pgdata:

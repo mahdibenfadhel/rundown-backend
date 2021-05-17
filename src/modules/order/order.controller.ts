@@ -11,12 +11,13 @@ export class OrderController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @Post()
+  @Post(':auctionId')
+  @ApiParam({ name: 'auctionId' })
   @ApiResponse({ status: 201, description: 'created' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async create(@Body() createOrder: orderPayload): Promise<any> {
-    const order = await this.orderService.create(createOrder);
+  async create(@Request() request, @Param('auctionId') auctionId, @Body() createOrder: orderPayload): Promise<any> {
+    const order = await this.orderService.create(createOrder, auctionId, request.user);
     return {success: true, data: order};
   }
 

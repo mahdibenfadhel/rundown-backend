@@ -1,13 +1,13 @@
-FROM node:lts-alpine
+FROM node:lts-alpine As development
 
-WORKDIR /app
+WORKDIR app
 
 ENV NODE_ENV development
+
 COPY package.json yarn.lock ./
-RUN yarn
+
+RUN yarn --only=development
 
 COPY . .
 
-EXPOSE 3000
-
-CMD [ "yarn", "start:dev" ]
+RUN npm run build

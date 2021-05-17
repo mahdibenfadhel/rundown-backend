@@ -7,31 +7,31 @@ import { User } from 'modules/user';
 export class AuctionPayload {
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   auction_cutoff: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   currency: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   rate_mid: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   rate_start: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   rate_end: string;

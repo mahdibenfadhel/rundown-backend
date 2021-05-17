@@ -1,10 +1,11 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Auction } from '../auction/auction.entity';
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { AuctionPayload } from '../auction/auction.payload';
 import { Order } from './order.entity';
 import { orderPayload } from './order.payload';
+import { User } from '../user';
 
 @Injectable()
 export class OrderService {
@@ -17,7 +18,22 @@ export class OrderService {
     return this.orderRepository.findOne(id);
   }
 
-  async create(payload: orderPayload) {
+  async create(payload: orderPayload, auctionId, user) {
+    const order: Order = new Order();
+    const auction = await getConnection()
+      .createQueryBuilder()
+      .select("auction")
+      .from(Auction, "auction")
+      .where("auction.id = :id", { id: auctionId })
+      .getOne();
+
+    order.rate = payload.rate
+    order.direction = payload.direction
+    order.volume = payload.volume
+    order.unit = payload.unit
+    order.modified_by = payload.modified_by
+    order.auction = auction
+    order.user = user
     return await this.orderRepository.save(this.orderRepository.create(payload));
   }
 

@@ -3,8 +3,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
+  UpdateDateColumn, OneToMany,
 } from 'typeorm';
+import { Order } from '../order/order.entity';
 
 @Entity({
   name: 'auction',
@@ -28,6 +29,8 @@ export class Auction {
   @Column({ type: 'date' })
   rate_end: string;
 
+  @OneToMany(() => Order, order => order.auction)
+  orders: Order[];
 }
 
 export class ActionFillableFields {

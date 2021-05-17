@@ -7,31 +7,31 @@ import { User } from 'modules/user';
 export class orderPayload {
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   rate: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   direction: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   volume: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   unit: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
   })
   @IsNotEmpty()
   modified_by: number;

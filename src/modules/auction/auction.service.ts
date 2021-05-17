@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Auction } from './auction.entity';
 import { AuctionPayload } from './auction.payload';
+import * as fs from 'fs';
 
 @Injectable()
 export class AuctionService {
@@ -19,9 +20,23 @@ export class AuctionService {
 
     return await this.auctionRepository.save(this.auctionRepository.create(payload));
   }
- async createFromFile(payload: AuctionPayload) {
-
-    return await this.auctionRepository.save(this.auctionRepository.create(payload));
+ async createFromFile(file) {
+    let auctions: AuctionPayload[] = [];
+   fs.writeFile('./auction.csv', file.buffer, function (err) {
+     if (err)  throw new NotAcceptableException(
+       'file error',
+     );
+   });
+   const csv=require('csvtojson')
+   await csv()
+     .fromFile('./auction.csv')
+     .then((jsonObj)=>{
+       auctions = jsonObj;
+       auctions.forEach(a => {
+         this.create(a)
+       })
+     })
+    return auctions.length;
   }
 
   async findAll(): Promise<Auction[]> {

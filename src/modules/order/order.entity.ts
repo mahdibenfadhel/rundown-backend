@@ -3,13 +3,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn, OneToOne, JoinColumn,
+  UpdateDateColumn, OneToOne, JoinColumn, ManyToOne,
 } from 'typeorm';
 import { User } from '../user';
 import { Auction } from '../auction/auction.entity';
 
 @Entity({
-  name: 'auction',
+  name: 'order',
 })
 export class Order {
   @PrimaryGeneratedColumn()
@@ -34,13 +34,11 @@ export class Order {
   last_modified!: Date;
 
 
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
-
-  @OneToOne(() => Auction)
-  @JoinColumn()
+  @ManyToOne(() => Auction, auction => auction.orders)
   auction: Auction;
+
+  @ManyToOne(() => User, user => user.orders)
+  user: User;
 }
 
 export class OrderFillableFields {

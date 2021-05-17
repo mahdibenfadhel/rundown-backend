@@ -3,9 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
+  UpdateDateColumn, OneToMany,
 } from 'typeorm';
 import { PasswordTransformer } from './password.transformer';
+import { Order } from '../order/order.entity';
 
 @Entity({
   name: 'users',
@@ -40,6 +41,8 @@ export class User {
     const { password, ...self } = this;
     return self;
   }
+  @OneToMany(() => Order, order => order.user)
+  orders: Order[];
 }
 
 export class UserFillableFields {
