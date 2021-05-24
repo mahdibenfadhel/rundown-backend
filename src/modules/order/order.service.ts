@@ -34,11 +34,11 @@ export class OrderService {
     order.modified_by = payload.modified_by
     order.auction = auction
     order.user = user
-    return await this.orderRepository.save(this.orderRepository.create(payload));
+    return await this.orderRepository.save(this.orderRepository.create(order));
   }
 
   async findAll(): Promise<Order[]> {
-    return this.orderRepository.find();
+    return this.orderRepository.find({ relations: ["user", 'auction']});
   }
 
 
@@ -67,7 +67,13 @@ export class OrderService {
     return { success: true };
   }
   async deleteOrdersFromUser(user) {
-    const entities = await this.orderRepository.find({user: user});
+    const entities =  await getConnection()
+      .createQueryBuilder()
+      .select("order")
+      .from(Order, "order")
+      .leftJoinAndSelect("user", "user")
+      .where("user.id = :id", { id: user.id })
+      .getMany();
     await this.orderRepository.remove(entities);
     return { success: true };
   }
