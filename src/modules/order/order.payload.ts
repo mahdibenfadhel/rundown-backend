@@ -29,6 +29,11 @@ export class orderPayload {
   })
   @IsNotEmpty()
   unit: string;
+ @ApiProperty({
+    required: false,
+  })
+  @IsNotEmpty()
+ hasAlarm: boolean;
 
   @ApiProperty({
     required: false,

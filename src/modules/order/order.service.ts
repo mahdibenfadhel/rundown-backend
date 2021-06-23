@@ -31,6 +31,7 @@ export class OrderService {
     order.direction = payload.direction
     order.volume = payload.volume
     order.unit = payload.unit
+    order.hasAlarm = payload.hasAlarm
     order.modified_by = payload.modified_by
     order.auction = auction
     order.user = user

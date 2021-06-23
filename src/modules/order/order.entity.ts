@@ -21,6 +21,9 @@ export class Order {
   @Column({ length: 255 })
   direction: string;
 
+  @Column()
+  hasAlarm: boolean;
+
   @Column({ length: 255 })
   volume: string;
 
