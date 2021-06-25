@@ -33,8 +33,8 @@ export class AuctionController {
     return {success: true, data: auction};
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard())
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard())
   @Post('/file')
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
