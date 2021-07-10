@@ -1,9 +1,10 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { Auction } from './auction.entity';
 import { AuctionPayload } from './auction.payload';
 import * as fs from 'fs';
+import { Order } from '../order/order.entity';
 
 @Injectable()
 export class AuctionService {
@@ -14,6 +15,15 @@ export class AuctionService {
 
   async get(id: string) {
     return this.auctionRepository.findOne(id);
+  }
+  async deleteAll(rq) {
+    const entities =  await getConnection()
+      .createQueryBuilder()
+      .select("alarm")
+      .from(Order, "alarm")
+      .leftJoinAndSelect("user", "user")
+      .where("user.id = :id", { id: rq.id })
+      .delete();
   }
 
   async create(payload: AuctionPayload) {

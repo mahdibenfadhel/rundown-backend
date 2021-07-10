@@ -68,6 +68,13 @@ export class AuctionController {
     return this.auctionService.findAll();
   }
 
+  @Delete()
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async delete(@Request() request): Promise<any> {
+    return this.auctionService.deleteAll(request);
+  }
+
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Put(':auctionId')
