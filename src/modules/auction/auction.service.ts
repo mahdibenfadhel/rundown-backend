@@ -17,10 +17,10 @@ export class AuctionService {
     return this.auctionRepository.findOne(id);
   }
   async deleteAll(rq) {
-    const entities =  await getConnection()
+    return getConnection()
       .createQueryBuilder()
-      .select("alarm")
-      .from(Order, "alarm")
+      .select("order")
+      .from(Order, "order")
       .leftJoinAndSelect("user", "user")
       .where("user.id = :id", { id: rq.id })
       .delete();

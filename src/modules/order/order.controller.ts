@@ -39,6 +39,16 @@ export class OrderController {
     return await this.orderService.updateOrder(updatedOrder, orderId);
 
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete('allOrderFromUser')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteOrdersFromUser(@Request() request): Promise<any> {
+    return await this.orderService.deleteOrdersFromUser(request.user);
+
+  }
   // @ApiBearerAuth()
   // @UseGuards(AuthGuard())
   @Delete(':orderId')
@@ -50,13 +60,4 @@ export class OrderController {
 
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard())
-  @Delete('allOrderFromUser')
-  @ApiResponse({ status: 200, description: 'Successful Response' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async deleteOrdersFromUser(@Request() request): Promise<any> {
-    return await this.orderService.deleteOrdersFromUser(request.user);
-
-  }
 }

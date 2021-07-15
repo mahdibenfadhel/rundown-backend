@@ -1,7 +1,7 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Auction } from '../auction/auction.entity';
-import { getConnection, Repository } from 'typeorm';
+import { getConnection, In, Repository } from 'typeorm';
 import { AuctionPayload } from '../auction/auction.payload';
 import { Order } from './order.entity';
 import { orderPayload } from './order.payload';
@@ -68,14 +68,19 @@ export class OrderService {
     return { success: true };
   }
   async deleteOrdersFromUser(user) {
+    const ids = [];
     const entities =  await getConnection()
       .createQueryBuilder()
       .select("order")
       .from(Order, "order")
-      .leftJoinAndSelect("user", "user")
-      .where("user.id = :id", { id: user.id })
+      .where("order.userId = :id", { id: user.id })
       .getMany();
-    await this.orderRepository.remove(entities);
+    entities.forEach(e => {
+      ids.push(e.id)
+    })
+    console.log(ids, entities, user)
+    await this.orderRepository.delete({ id: In(ids) });
+    // await this.orderRepository.remove(entities);
     return { success: true };
   }
 }
