@@ -37,7 +37,9 @@ export class Order {
   last_modified!: Date;
 
 
-  @ManyToOne(() => Auction, auction => auction.orders)
+  @ManyToOne(() => Auction, auction => auction.orders, {
+    eager: true
+  })
   auction: Auction;
 
   @ManyToOne(() => User, user => user.orders)

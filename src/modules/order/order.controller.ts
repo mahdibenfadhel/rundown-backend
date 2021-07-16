@@ -9,8 +9,8 @@ import { orderPayload } from './order.payload';
 export class OrderController {
   constructor(private orderService: OrderService){}
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Post(':auctionId')
   @ApiParam({ name: 'auctionId' })
   @ApiResponse({ status: 201, description: 'created' })
@@ -21,16 +21,18 @@ export class OrderController {
     return {success: true, data: order};
   }
 
-
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Get()
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getComments(@Request() request): Promise<any> {
-    return this.orderService.findAll();
+    const order = await this.orderService.findAll(request.user);
+    return {success: true, data: order};
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Put(':orderId')
   @ApiParam({ name: 'orderId' })
   @ApiResponse({ status: 200, description: 'Successful Response' })
@@ -49,8 +51,17 @@ export class OrderController {
     return await this.orderService.deleteOrdersFromUser(request.user);
 
   }
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete('allAlarmFromUser')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteAlarmsFromUser(@Request() request): Promise<any> {
+    return await this.orderService.deleteAlarmFromUser(request.user);
+
+  }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Delete(':orderId')
   @ApiParam({ name: 'orderId' })
   @ApiResponse({ status: 200, description: 'Successful Response' })

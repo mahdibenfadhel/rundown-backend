@@ -38,8 +38,8 @@ export class OrderService {
     return await this.orderRepository.save(this.orderRepository.create(order));
   }
 
-  async findAll(): Promise<Order[]> {
-    return this.orderRepository.find({ relations: ["user", 'auction']});
+  async findAll(user): Promise<Order[]> {
+    return this.orderRepository.find({ where: { user: user.id } });
   }
 
 
@@ -78,8 +78,24 @@ export class OrderService {
     entities.forEach(e => {
       ids.push(e.id)
     })
-    console.log(ids, entities, user)
-    await this.orderRepository.delete({ id: In(ids) });
+      await this.orderRepository.delete({ id: In(ids) });
+    // await this.orderRepository.remove(entities);
+    return { success: true };
+  }
+  async deleteAlarmFromUser(user) {
+    const ids = [];
+    const entities =  await getConnection()
+      .createQueryBuilder()
+      .select("order")
+      .from(Order, "order")
+      .where("order.userId = :id", { id: user.id })
+      .getMany();
+    entities.forEach(e => {
+      console.log(e)
+      if (e.hasAlarm) {
+        ids.push(e.id);
+      }    })
+      await this.orderRepository.delete({ id: In(ids) });
     // await this.orderRepository.remove(entities);
     return { success: true };
   }
