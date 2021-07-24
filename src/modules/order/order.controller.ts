@@ -41,6 +41,16 @@ export class OrderController {
     return await this.orderService.updateOrder(updatedOrder, orderId);
 
   }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete(':orderId')
+  @ApiParam({ name: 'orderId' })
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteOrders(@Param('orderId') orderId): Promise<any> {
+    return await this.orderService.deleteOrdersById(orderId);
+
+  }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())

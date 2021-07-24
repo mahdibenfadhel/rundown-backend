@@ -82,6 +82,10 @@ export class OrderService {
     // await this.orderRepository.remove(entities);
     return { success: true };
   }
+
+  async deleteOrdersById(id) {
+   return this.orderRepository.delete(id)
+  }
   async deleteAlarmFromUser(user) {
     const ids = [];
     const entities =  await getConnection()
