@@ -41,7 +41,50 @@ export class OrderService {
   async findAll(user): Promise<Order[]> {
     return this.orderRepository.find({ where: { user: user.id } });
   }
-
+async findAllOrders(): Promise<Order[]> {
+    return this.orderRepository.find();
+  }
+  async findAllOrdersSinceYesterday() {
+    const users = await this.orderRepository.find();
+    const usersSinceLastWeek = [];
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    const lastWeek = d.getDate();
+    users.forEach(u => {
+      if (u.created_at.getDate() > lastWeek){
+        usersSinceLastWeek.push(u)
+      }
+    })
+    return (usersSinceLastWeek.length / users.length) * 100
+  }
+  async getAllOrdersChart() {
+    const currencies = [0, 0, 0, 0, 0, 0];
+    const orders = await this.orderRepository.find({ relations: ['auction']});
+    orders.forEach(u => {
+      console.log(u.auction.currency)
+      switch (u.auction.currency){
+        case 'MPC':
+          currencies[0]++
+          break;
+        case 'ECB':
+          currencies[1]++
+          break;
+        case 'FOMC':
+          currencies[2]++
+          break;
+        case 'RBA':
+          currencies[3]++
+          break;
+        case 'BOC':
+          currencies[4]++
+          break;
+        case 'RBNZ':
+          currencies[5]++
+          break;
+      }
+    })
+return currencies;
+  }
 
   async updateOrder(updateOrder: orderPayload, id) {
     const order = await this.get(id);

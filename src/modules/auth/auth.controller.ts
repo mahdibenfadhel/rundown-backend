@@ -45,4 +45,21 @@ export class AuthController {
   async getLoggedInUser(@Request() request): Promise<any> {
     return request.user;
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('users')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getUsers(@Request() request): Promise<any> {
+    return this.userService.findAll();
+  }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+    @Get('usersSinceLastWeek')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async sinceLastWeek(@Request() request): Promise<any> {
+    return this.userService.sinceLastWeek();
+  }
 }

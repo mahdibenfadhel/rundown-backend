@@ -41,6 +41,12 @@ export class User {
     const { password, ...self } = this;
     return self;
   }
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
   @OneToMany(() => Order, order => order.user)
   orders: Order[];
 }

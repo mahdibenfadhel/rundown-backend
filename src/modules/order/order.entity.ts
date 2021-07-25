@@ -36,6 +36,8 @@ export class Order {
   @UpdateDateColumn()
   last_modified!: Date;
 
+  @CreateDateColumn()
+  created_at: Date;
 
   @ManyToOne(() => Auction, auction => auction.orders, {
     eager: true

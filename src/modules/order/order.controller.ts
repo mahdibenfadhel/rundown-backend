@@ -30,7 +30,33 @@ export class OrderController {
     const order = await this.orderService.findAll(request.user);
     return {success: true, data: order};
   }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('allOrders')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getAllOrders(@Request() request): Promise<any> {
+    const order = await this.orderService.findAllOrders();
+    return {success: true, data: order};
+  }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('allOrdersSinceYesterday')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getAllOrdersSinceYesterday(@Request() request): Promise<any> {
+    return  await this.orderService.findAllOrdersSinceYesterday();
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('ordersChart')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getAllOrdersChart(@Request() request): Promise<any> {
+    return  await this.orderService.getAllOrdersChart();
+  }
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Put(':orderId')

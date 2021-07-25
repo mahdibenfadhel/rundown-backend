@@ -14,6 +14,22 @@ export class UsersService {
   async get(id: number) {
     return this.userRepository.findOne(id);
   }
+ async findAll() {
+    return this.userRepository.find();
+  }
+ async sinceLastWeek() {
+    const users = await this.userRepository.find();
+    const usersSinceLastWeek = [];
+   const d = new Date();
+   d.setDate(d.getDate() - 7);
+   const lastWeek = d.getDate();
+    users.forEach(u => {
+      if (u.created_at.getDate() > lastWeek){
+        usersSinceLastWeek.push(u)
+      }
+    })
+   return (usersSinceLastWeek.length / users.length) * 100
+  }
 
   async getByEmail(email: string) {
     return await this.userRepository
