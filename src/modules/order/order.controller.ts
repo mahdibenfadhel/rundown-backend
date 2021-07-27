@@ -20,6 +20,17 @@ export class OrderController {
     const order = await this.orderService.create(createOrder, auctionId, request.user);
     return {success: true, data: order};
   }
+ @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('getOrdersByUser/:userId')
+  @ApiParam({ name: 'userId' })
+  @ApiResponse({ status: 201, description: 'created' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getOrderById(@Param('userId') userId): Promise<any> {
+    return await this.orderService.getOrdersById(userId);
+
+  }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())

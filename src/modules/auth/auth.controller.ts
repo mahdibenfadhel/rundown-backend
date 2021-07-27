@@ -46,12 +46,10 @@ export class AuthController {
     return request.user;
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard())
   @Get('users')
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getUsers(@Request() request): Promise<any> {
+  async getUsers(): Promise<any> {
     return this.userService.findAll();
   }
   @ApiBearerAuth()

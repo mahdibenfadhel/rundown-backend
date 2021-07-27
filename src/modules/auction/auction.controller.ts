@@ -48,6 +48,21 @@ export class AuctionController {
         },
       },
     },
+  }) // @ApiBearerAuth()
+  // @UseGuards(AuthGuard())
+  @Post('/file')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
   })
   @ApiResponse({ status: 200, description: 'success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
@@ -57,6 +72,33 @@ export class AuctionController {
       dest: './upload',
     });
     const auction = await this.auctionService.createFromFile(file);
+    return {success: true, data: 'added ' + auction + ' new auctions'};
+  }
+
+ // @ApiBearerAuth()
+  // @UseGuards(AuthGuard())
+  @Post('/orderFile')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 200, description: 'success' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async createFromFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
+    MulterModule.register({
+      dest: './upload',
+    });
+    const auction = await this.auctionService.createFromOrderFile(file);
     return {success: true, data: 'added ' + auction + ' new auctions'};
   }
 

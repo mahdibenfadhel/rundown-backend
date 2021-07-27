@@ -48,6 +48,24 @@ export class AuctionService {
      })
     return auctions.length;
   }
+ async createFromOrderFile(file) {
+    let auctions: AuctionPayload[] = [];
+   fs.writeFile('./auction.csv', file.buffer, function (err) {
+     if (err)  throw new NotAcceptableException(
+       'file error',
+     );
+   });
+   const csv=require('csvtojson')
+   await csv()
+     .fromFile('./auction.csv')
+     .then((jsonObj)=>{
+       auctions = jsonObj;
+       auctions.forEach(a => {
+         this.create(a)
+       })
+     })
+    return auctions.length;
+  }
 
   async findAll(): Promise<Auction[]> {
     return this.auctionRepository.find();
