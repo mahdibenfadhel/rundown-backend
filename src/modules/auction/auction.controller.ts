@@ -94,7 +94,7 @@ export class AuctionController {
   @ApiResponse({ status: 200, description: 'success' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async createFromFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
+  async createOrderFromFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
     MulterModule.register({
       dest: './upload',
     });
