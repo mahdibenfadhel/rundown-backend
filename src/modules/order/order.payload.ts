@@ -1,8 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { Unique } from 'modules/common';
-import { SameAs } from 'modules/common/validator/same-as.validator';
-import { User } from 'modules/user';
+import { IsNotEmpty } from 'class-validator';
+
 
 export class orderPayload {
 
@@ -24,16 +22,18 @@ export class orderPayload {
   @IsNotEmpty()
   volume: string;
 
-  @ApiProperty({
-    required: false,
-  })
-  @IsNotEmpty()
-  unit: string;
  @ApiProperty({
     required: false,
   })
   @IsNotEmpty()
  hasAlarm: boolean;
+
+  @ApiProperty({
+    required: true,
+    default: false,
+  })
+  @IsNotEmpty()
+  isFromAdmin: boolean;
 
   @ApiProperty({
     required: false,

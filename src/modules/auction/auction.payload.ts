@@ -36,4 +36,14 @@ export class AuctionPayload {
   @IsNotEmpty()
   rate_end: string;
 
+  @ApiProperty({
+    required: false,
+  })
+  @IsNotEmpty()
+  cleared: string;
+  @ApiProperty({
+    required: false,
+  })
+  @IsNotEmpty()
+  fix: string;
 }

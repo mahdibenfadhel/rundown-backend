@@ -24,11 +24,12 @@ export class Order {
   @Column()
   hasAlarm: boolean;
 
+  @Column({default: false})
+  isFromAdmin: boolean;
+
   @Column({ length: 255 })
   volume: string;
 
-  @Column({ length: 255 })
-  unit: string;
 
  @Column()
  modified_by: number;

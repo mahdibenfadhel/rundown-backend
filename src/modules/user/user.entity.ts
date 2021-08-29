@@ -30,6 +30,9 @@ export class User {
   @Column({ length: 255 })
   email: string;
 
+  @Column({ default: false })
+  isAdmin: boolean;
+
   @Column({
     name: 'password',
     length: 255,
@@ -58,4 +61,5 @@ export class UserFillableFields {
   gui_version: string;
   last_action: string;
   password: string;
+  isAdmin: boolean;
 }

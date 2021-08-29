@@ -9,6 +9,7 @@ import { JwtStrategy } from '../auth';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auction } from '../auction/auction.entity';
 import { Order } from './order.entity';
+import { AuctionService } from '../auction/auction.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Order]),

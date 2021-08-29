@@ -36,6 +36,12 @@ export class RegisterPayload {
   @IsNotEmpty()
   last_action: string;
 
+ @ApiProperty({
+    required: true,
+   default: false
+  })
+ isAdmin: boolean;
+
   @ApiProperty({
     required: true,
   })

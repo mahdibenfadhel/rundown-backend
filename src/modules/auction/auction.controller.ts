@@ -48,9 +48,10 @@ export class AuctionController {
         },
       },
     },
-  }) // @ApiBearerAuth()
+  })
+  // @ApiBearerAuth()
   // @UseGuards(AuthGuard())
-  @Post('/file')
+  @Post('/auctionFile')
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiBody({

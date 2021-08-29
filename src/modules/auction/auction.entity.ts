@@ -2,8 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn, OneToMany,
+  OneToMany,
 } from 'typeorm';
 import { Order } from '../order/order.entity';
 
@@ -19,6 +18,12 @@ export class Auction {
 
   @Column({ length: 255 })
   currency: string;
+
+  @Column({ length: 255 })
+  cleared: string;
+
+  @Column({ length: 255 })
+  fix: string;
 
   @Column({ length: 255 })
   rate_mid: string;
