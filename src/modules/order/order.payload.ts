@@ -19,7 +19,6 @@ export class orderPayload {
   @ApiProperty({
     required: false,
   })
-  @IsNotEmpty()
   volume: string;
 
  @ApiProperty({
@@ -38,7 +37,6 @@ export class orderPayload {
   @ApiProperty({
     required: false,
   })
-  @IsNotEmpty()
   modified_by: number;
 
 }

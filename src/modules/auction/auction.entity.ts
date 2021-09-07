@@ -13,8 +13,8 @@ export class Auction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 255 })
-  auction_cutoff: string;
+  @Column()
+  auction_cutoff: Date;
 
   @Column({ length: 255 })
   currency: string;
@@ -33,6 +33,9 @@ export class Auction {
 
   @Column({ type: 'date' })
   rate_end: string;
+
+  @Column({ default: false })
+  fromAdmin: boolean;
 
   @OneToMany(() => Order, order => order.auction)
   orders: Order[];

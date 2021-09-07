@@ -10,7 +10,7 @@ export class AuctionPayload {
     required: false,
   })
   @IsNotEmpty()
-  auction_cutoff: string;
+  auction_cutoff: Date;
 
   @ApiProperty({
     required: false,
@@ -46,4 +46,11 @@ export class AuctionPayload {
   })
   @IsNotEmpty()
   fix: string;
+
+  @ApiProperty({
+    required: true,
+    default: false,
+  })
+  @IsNotEmpty()
+  fromAdmin: boolean;
 }

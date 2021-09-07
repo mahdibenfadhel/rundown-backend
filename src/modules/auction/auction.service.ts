@@ -5,6 +5,7 @@ import { Auction } from './auction.entity';
 import { AuctionPayload } from './auction.payload';
 import * as fs from 'fs';
 import { Order } from '../order/order.entity';
+import { orderPayload } from '../order/order.payload';
 
 @Injectable()
 export class AuctionService {
@@ -49,19 +50,49 @@ export class AuctionService {
     return auctions.length;
   }
  async createFromOrderFile(file) {
-    let auctions: AuctionPayload[] = [];
-   fs.writeFile('./auction.csv', file.buffer, function (err) {
+    let auctions = [];
+   fs.writeFile('./orders.csv', file.buffer, function (err) {
      if (err)  throw new NotAcceptableException(
        'file error',
      );
    });
    const csv=require('csvtojson')
    await csv()
-     .fromFile('./auction.csv')
+     .fromFile('./orders.csv')
      .then((jsonObj)=>{
        auctions = jsonObj;
-       auctions.forEach(a => {
-         this.create(a)
+       auctions.forEach(async a => {
+         let order: orderPayload = {
+           rate: a.Strike,
+           direction: a.Direction.toLowerCase(),
+           hasAlarm: false,
+           isFromAdmin: true,
+           volume: '0',
+           modified_by: 0,
+         }
+         let auction: AuctionPayload = {
+           auction_cutoff: new Date(a['Effective date']),
+           currency: a.Currency,
+           rate_mid: a.Strike,
+           rate_start: new Date(a['Effective date']).toDateString(),
+           rate_end: new Date(a['End date']).toDateString(),
+           cleared: a['Clearing house'],
+           fix: a.Fix,
+           fromAdmin: true,
+         }
+         let savedAuc = await this.auctionRepository.save(this.auctionRepository.create(auction))
+         let savedOrder =  await getConnection()
+           .createQueryBuilder()
+           .insert()
+           .into(Order)
+           .values(order)
+           .execute();
+         await getConnection()
+           .createQueryBuilder()
+           .update(Order)
+           .set({ auction: savedAuc})
+           .where("id = :id", { id: savedOrder.identifiers[0].id })
+           .execute();
        })
      })
     return auctions.length;
