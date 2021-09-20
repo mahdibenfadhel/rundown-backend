@@ -23,13 +23,13 @@ export class OrderService {
       .createQueryBuilder("auction")
       .where("auction.id = :id", { id: auctionId })
       .getOne();
-
-
     order.rate = payload.rate
     order.direction = payload.direction
     order.volume = payload.volume
     order.hasAlarm = payload.hasAlarm
     order.modified_by = payload.modified_by
+    order.notional = payload.notional
+    order.dv01 = payload.dv01
     order.auction = auction
     order.user = user
     return await this.orderRepository.save(this.orderRepository.create(order));
@@ -118,11 +118,15 @@ return currencies;
       .from(Order, "order")
       .where("order.userId = :id", { id: user.id })
       .getMany();
+    console.log(entities)
     entities.forEach(e => {
       ids.push(e.id)
     })
+    console.log(ids)
+    if (ids) {
+      console.log(ids)
       await this.orderRepository.delete({ id: In(ids) });
-    // await this.orderRepository.remove(entities);
+    }    // await this.orderRepository.remove(entities);
     return { success: true };
   }
 

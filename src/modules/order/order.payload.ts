@@ -26,6 +26,18 @@ export class orderPayload {
   })
   @IsNotEmpty()
  hasAlarm: boolean;
+  @ApiProperty({
+    required: false,
+    default: 0
+  })
+  notional: number;
+
+
+  @ApiProperty({
+    required: false,
+    default: 0
+  })
+  dv01: number;
 
   @ApiProperty({
     required: true,

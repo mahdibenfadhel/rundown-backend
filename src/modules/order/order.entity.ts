@@ -27,6 +27,12 @@ export class Order {
   @Column({default: false})
   isFromAdmin: boolean;
 
+  @Column({type:'decimal', default: 0})
+  notional: number;
+
+  @Column({type:'decimal', default: 0})
+  dv01: number;
+
   @Column({ length: 255 })
   volume: string;
 

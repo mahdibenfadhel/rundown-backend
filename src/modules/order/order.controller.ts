@@ -50,7 +50,24 @@ export class OrderController {
     const order = await this.orderService.findAllOrders();
     return {success: true, data: order};
   }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete('allOrderFromUser')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteOrdersFromUser(@Request() request): Promise<any> {
+    return await this.orderService.deleteOrdersFromUser(request.user);
 
+  }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete('allAlarmFromUser')
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteAlarmsFromUser(@Request() request): Promise<any> {
+    return await this.orderService.deleteAlarmFromUser(request.user);
+
+  }
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Get('allOrdersSinceYesterday')
@@ -89,24 +106,7 @@ export class OrderController {
 
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard())
-  @Delete('allOrderFromUser')
-  @ApiResponse({ status: 200, description: 'Successful Response' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async deleteOrdersFromUser(@Request() request): Promise<any> {
-    return await this.orderService.deleteOrdersFromUser(request.user);
 
-  }
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard())
-  @Delete('allAlarmFromUser')
-  @ApiResponse({ status: 200, description: 'Successful Response' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async deleteAlarmsFromUser(@Request() request): Promise<any> {
-    return await this.orderService.deleteAlarmFromUser(request.user);
-
-  }
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Delete(':orderId')

@@ -69,6 +69,8 @@ export class AuctionService {
            isFromAdmin: true,
            volume: '0',
            modified_by: 0,
+           notional: a.Notional,
+           dv01: a.dv01,
          }
          let auction: AuctionPayload = {
            auction_cutoff: new Date(a['Effective date']),
