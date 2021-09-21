@@ -44,7 +44,17 @@ export class AuctionService {
      .then((jsonObj)=>{
        auctions = jsonObj;
        auctions.forEach(a => {
-         this.create(a)
+         let auction: AuctionPayload = {
+           auction_cutoff: new Date(a['auction_cutoff']),
+           currency: a.currency,
+           rate_mid: a.rate_mid,
+           rate_start: new Date(a['rate_start']).toDateString(),
+           rate_end: new Date(a['auction_cutoff']).toDateString(),
+           cleared: a.cleared,
+           fix: a.fix,
+           fromAdmin: false,
+         }
+         this.create(auction)
        })
      })
     return auctions.length;
