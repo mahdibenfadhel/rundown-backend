@@ -67,7 +67,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @Delete('delete')
+  @Delete('delete/:userId')
   @ApiParam({ name: 'userId' })
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
