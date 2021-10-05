@@ -83,7 +83,7 @@ export class AuctionService {
            dv01: a.dv01,
          }
          let auction: AuctionPayload = {
-           auction_cutoff: new Date(a['Effective date']),
+           auction_cutoff: new Date(a['End date']),
            currency: a.Currency,
            rate_mid: a.Strike,
            rate_start: new Date(a['Effective date']).toDateString(),

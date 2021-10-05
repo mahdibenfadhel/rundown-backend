@@ -99,8 +99,8 @@ export class AuctionController {
     MulterModule.register({
       dest: './upload',
     });
-    const auction = await this.auctionService.createFromOrderFile(file);
-    return {success: true, data: 'added ' + auction + ' new auctions'};
+    const orders = await this.auctionService.createFromOrderFile(file);
+    return {success: true, data: 'added ' + orders + ' new orders'};
   }
 
 
