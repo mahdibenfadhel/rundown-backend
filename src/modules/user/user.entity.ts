@@ -50,7 +50,7 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => Order, order => order.user)
+  @OneToMany(() => Order, order => order.user, { onDelete: 'CASCADE' })
   orders: Order[];
 }
 
