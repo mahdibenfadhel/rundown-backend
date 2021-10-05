@@ -30,7 +30,9 @@ export class UsersService {
     })
    return (usersSinceLastWeek.length / users.length) * 100
   }
-
+  async deleteUser(id){
+    return await this.userRepository.delete(id);
+  }
   async getByEmail(email: string) {
     return await this.userRepository
       .createQueryBuilder('users')

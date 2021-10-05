@@ -1,12 +1,14 @@
 import {
   Controller,
   Body,
+  Param,
   Post,
   UseGuards,
   Get,
+  Delete,
   Request,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService, LoginPayload, RegisterPayload } from './';
 import { UsersService } from './../user';
@@ -17,7 +19,8 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UsersService,
-  ) {}
+  ) {
+  }
 
   @Post('login')
   @ApiResponse({ status: 201, description: 'Successful Login' })
@@ -52,12 +55,23 @@ export class AuthController {
   async getUsers(): Promise<any> {
     return this.userService.findAll();
   }
+
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-    @Get('usersSinceLastWeek')
+  @Get('usersSinceLastWeek')
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async sinceLastWeek(@Request() request): Promise<any> {
     return this.userService.sinceLastWeek();
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete('delete')
+  @ApiParam({ name: 'userId' })
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteOrdersFromUser(@Param('userId') userId,): Promise<any> {
+    return await this.userService.deleteUser(userId);
   }
 }
