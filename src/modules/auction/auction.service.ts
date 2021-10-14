@@ -82,8 +82,14 @@ export class AuctionService {
            notional: a.Notional,
            dv01: a.dv01,
          }
-         let auction: AuctionPayload = {
-           auction_cutoff: new Date(a['End date']),
+         let auction_cutoff= new Date(a['End date']);
+         console.log(a['Auction time'])
+         auction_cutoff.setHours((a['Auction time']).split(':')[0]);
+         auction_cutoff.setMinutes((a['Auction time']).split(':')[1]);
+         auction_cutoff.setSeconds((a['Auction time']).split(':')[2]);
+         console.log(auction_cutoff)
+           let auction: AuctionPayload = {
+           auction_cutoff,
            currency: a.Currency,
            rate_mid: a.Strike,
            rate_start: new Date(a['Effective date']).toDateString(),
