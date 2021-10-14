@@ -17,6 +17,9 @@ export class AuctionService {
   async get(id: string) {
     return this.auctionRepository.findOne(id);
   }
+  async deleteOne(id: string) {
+    return this.auctionRepository.delete(id);
+  }
   async deleteAll(rq) {
     return getConnection()
       .createQueryBuilder()

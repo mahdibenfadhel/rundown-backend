@@ -110,12 +110,22 @@ export class AuctionController {
   async getComments(@Request() request): Promise<any> {
     return this.auctionService.findAll();
   }
-
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Delete()
   @ApiResponse({ status: 200, description: 'Successful Response' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async delete(@Request() request): Promise<any> {
     return this.auctionService.deleteAll(request);
+  }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete(':auctionId')
+  @ApiParam({ name: 'auctionId' })
+  @ApiResponse({ status: 200, description: 'Successful Response' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteOne(@Param('auctionId') auctionId): Promise<any> {
+    return this.auctionService.deleteOne(auctionId);
   }
 
   @ApiBearerAuth()

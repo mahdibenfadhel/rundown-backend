@@ -47,6 +47,7 @@ export class Order {
   created_at: Date;
 
   @ManyToOne(() => Auction, auction => auction.orders, {
+  onDelete: 'CASCADE',
     eager: true
   })
   auction: Auction;
