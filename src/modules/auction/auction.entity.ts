@@ -23,6 +23,9 @@ export class Auction {
   cleared: string;
 
   @Column({ length: 255 })
+  bank_name: string;
+
+  @Column({ length: 255 })
   fix: string;
 
   @Column({ length: 255 })

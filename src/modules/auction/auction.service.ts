@@ -49,10 +49,11 @@ export class AuctionService {
        auctions.forEach(a => {
          let auction: AuctionPayload = {
            auction_cutoff: new Date(a['auction_cutoff']),
+           bank_name: a['Bank name'],
            currency: a.currency,
            rate_mid: a.rate_mid,
            rate_start: new Date(a['rate_start']).toDateString(),
-           rate_end: new Date(a['auction_cutoff']).toDateString(),
+           rate_end: new Date(a['rate_end']).toDateString(),
            cleared: a.cleared,
            fix: a.fix,
            fromAdmin: false,
@@ -86,14 +87,13 @@ export class AuctionService {
            dv01: a.dv01,
          }
          let auction_cutoff= new Date(a['End date']);
-         console.log(a['Auction time'])
          auction_cutoff.setHours((a['Auction time']).split(':')[0]);
          auction_cutoff.setMinutes((a['Auction time']).split(':')[1]);
          auction_cutoff.setSeconds((a['Auction time']).split(':')[2]);
-         console.log(auction_cutoff)
            let auction: AuctionPayload = {
            auction_cutoff,
-           currency: a.Currency,
+             bank_name: a['Bank name'],
+              currency: a.Currency,
            rate_mid: a.Strike,
            rate_start: new Date(a['Effective date']).toDateString(),
            rate_end: new Date(a['End date']).toDateString(),

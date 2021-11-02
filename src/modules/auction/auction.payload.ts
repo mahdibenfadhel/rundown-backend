@@ -28,6 +28,12 @@ export class AuctionPayload {
     required: false,
   })
   @IsNotEmpty()
+  bank_name: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsNotEmpty()
   rate_start: string;
 
   @ApiProperty({
