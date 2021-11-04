@@ -22,7 +22,7 @@ export class Auction {
   @Column({ length: 255 })
   cleared: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, nullable:true })
   bank_name: string;
 
   @Column({ length: 255 })

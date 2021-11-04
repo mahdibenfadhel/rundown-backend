@@ -1,11 +1,12 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getConnection, Repository } from 'typeorm';
+import { getConnection, getRepository, Repository } from 'typeorm';
 import { Auction } from './auction.entity';
 import { AuctionPayload } from './auction.payload';
 import * as fs from 'fs';
 import { Order } from '../order/order.entity';
 import { orderPayload } from '../order/order.payload';
+import { User } from '../user';
 
 @Injectable()
 export class AuctionService {
@@ -63,7 +64,11 @@ export class AuctionService {
      })
     return auctions.length;
   }
- async createFromOrderFile(file) {
+ async createFromOrderFile(file, userId) {
+   let user = await getRepository(User)
+     .createQueryBuilder("user")
+     .where("user.id = :id", { id: userId })
+     .getOne();
     let auctions = [];
    fs.writeFile('./orders.csv', file.buffer, function (err) {
      if (err)  throw new NotAcceptableException(
@@ -76,16 +81,16 @@ export class AuctionService {
      .then((jsonObj)=>{
        auctions = jsonObj;
        auctions.forEach(async a => {
-         let order: orderPayload = {
-           rate: a.Strike,
-           direction: a.Direction.toLowerCase(),
-           hasAlarm: false,
-           isFromAdmin: true,
-           volume: '0',
-           modified_by: 0,
-           notional: a.Notional,
-           dv01: a.dv01,
-         }
+         let order = new Order();
+         order.rate= a.Strike;
+           order.direction= a.Direction.toLowerCase();
+           order.hasAlarm= false;
+           order.isFromAdmin= true;
+           order.volume= '0';
+           order.modified_by= 0;
+           order.notional= a.Notional;
+           order.dv01= a.dv01;
+           order.user= user;
          let auction_cutoff= new Date(a['End date']);
          auction_cutoff.setHours((a['Auction time']).split(':')[0]);
          auction_cutoff.setMinutes((a['Auction time']).split(':')[1]);

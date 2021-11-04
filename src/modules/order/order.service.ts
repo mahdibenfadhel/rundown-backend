@@ -42,7 +42,7 @@ export class OrderService {
     return this.orderRepository.find({ where: { user: userId } });
   }
 async findAllOrders(): Promise<Order[]> {
-    return this.orderRepository.find();
+    return this.orderRepository.find({ relations: ['user']});
   }
   async findAllOrdersSinceYesterday() {
     const users = await this.orderRepository.find();

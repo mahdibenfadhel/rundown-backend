@@ -26,8 +26,8 @@ export class AuctionPayload {
 
   @ApiProperty({
     required: false,
+    nullable: true,
   })
-  @IsNotEmpty()
   bank_name: string;
 
   @ApiProperty({
