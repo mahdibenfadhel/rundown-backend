@@ -101,7 +101,7 @@ export class AuctionController {
       dest: './upload',
     });
     const orders = await this.auctionService.createFromOrderFile(file, userid);
-    return {success: true, data: 'added ' + orders + ' new orders'};
+    return {success: true, data: 'added ' + orders + ' new trades'};
   }
 
 

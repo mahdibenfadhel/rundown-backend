@@ -32,7 +32,7 @@ export class AuctionService {
   }
 
   async create(payload: AuctionPayload) {
-
+console.log(payload)
     return await this.auctionRepository.save(this.auctionRepository.create(payload));
   }
  async createFromFile(file) {
