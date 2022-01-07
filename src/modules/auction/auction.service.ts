@@ -91,10 +91,11 @@ console.log(payload)
            order.notional= a.Notional;
            order.dv01= a.dv01;
            order.user= user;
-         let auction_cutoff= new Date(a['End date']);
-         auction_cutoff.setHours((a['Auction time']).split(':')[0]);
-         auction_cutoff.setMinutes((a['Auction time']).split(':')[1]);
-         auction_cutoff.setSeconds((a['Auction time']).split(':')[2]);
+         let auction_cutoff= new Date(a['Auction time']);
+         // auction_cutoff.setHours((a['Auction time']).split(':')[0]);
+         // auction_cutoff.setMinutes((a['Auction time']).split(':')[1]);
+         // auction_cutoff.setSeconds((a['Auction time']).split(':')[2]);
+         console.log(a['Auction time'],auction_cutoff)
            let auction: AuctionPayload = {
            auction_cutoff,
              bank_name: a['Bank name'],
